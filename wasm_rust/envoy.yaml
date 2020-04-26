@@ -39,13 +39,13 @@ static_resources:
             config: {}
   clusters:
   - name: web_service
-    connect_timeout: 0.25s
-    type: static
+    connect_timeout: 1s
+    type: logical_dns
     lb_policy: round_robin
     hosts:
     - socket_address:
-        address: 127.0.0.1
-        port_value: 8099
+        address: home-ip.acalustra.com
+        port_value: 10020
 admin:
   access_log_path: "/dev/null"
   address:
