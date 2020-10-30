@@ -15,7 +15,10 @@ COPY . /code
 WORKDIR /code/filter/
 RUN cargo build --target=wasm32-unknown-unknown --release
 
-FROM envoyproxy/envoy-dev
+FROM envoyproxy/envoy-debug-dev
 COPY --from=basetools /code/filter/target/wasm32-unknown-unknown/release/filter.wasm /opt/filter.wasm
-ENTRYPOINT /usr/local/bin/envoy -c /etc/envoy.yaml -l debug --service-cluster proxy
+ADD  https://raw.githubusercontent.com/envoyproxy/envoy/master/tools/stack_decode.py /
+RUN chmod 777 stack_decode.py
+RUN apt-get update && apt-get install -y python3 binutils
+ENTRYPOINT /stack_decode.py /usr/local/bin/envoy -c /etc/envoy.yaml -l debug --service-cluster proxy
 

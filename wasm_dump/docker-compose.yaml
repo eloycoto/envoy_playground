@@ -17,18 +17,5 @@ services:
       - "18000:80"
       - "18001:8001"
 
-  web_service:
-    build:
-      context: .
-      dockerfile: Dockerfile-web-service
-    networks:
-      envoymesh:
-        aliases:
-          - web_service
-    expose:
-      - "80"
-    ports:
-      - "18080:80"
-
 networks:
   envoymesh: {}

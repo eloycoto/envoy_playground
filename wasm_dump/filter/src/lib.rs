@@ -52,12 +52,12 @@ impl HttpContext for HttpHeaders {
         }
 
         info!("ON HTTP REQUEST_HEADERS",);
-        self.set_http_request_header("TEST", Some("foobar"));
+        // self.set_http_request_header("TEST", Some("foobar"));
         self.send_http_response(403, vec![], Some(b"Access forbidden.\n"));
         Action::Continue
     }
 
-    fn on_log(&mut self) {
-        info!("Request #{} completed.", self.context_id);
-    }
+    // fn on_log(&mut self) {
+    //     info!("Request #{} completed.", self.context_id);
+    // }
 }
