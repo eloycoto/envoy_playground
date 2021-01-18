@@ -1,0 +1,27 @@
+version: '2'
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: centos.Dockerfile
+    volumes:
+      - ./envoy.yaml:/etc/envoy.yaml
+      - ./traces:/traces
+      - /sys/kernel/debug:/sys/kernel/debug:ro
+      - /lib/modules:/lib/modules:ro
+    privileged: true
+    pid: "host"
+    ulimits:
+      nofile:
+        soft: 98304
+        hard: 98304
+    networks:
+      - envoymesh
+    expose:
+      - "80"
+      - "8001"
+    ports:
+      - "18000:80"
+      - "18001:8001"
+networks:
+  envoymesh: {}

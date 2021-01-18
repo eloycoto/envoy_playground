@@ -1,0 +1,16 @@
+#!/usr/bin/env bpftrace
+BEGIN
+{
+  printf("Tracing proxy-wasm call in envoy...Hit Ctrl-C to end.\n");
+}
+
+uprobe:/usr/bin/envoy:proxy_wasm*exports* {
+  @start[tid] = nsecs;
+}
+
+uretprobe:/usr/bin/envoy:proxy_wasm*exports*
+/@start[tid]/
+{
+  @ns[func] = hist((nsecs - @start[tid])/1000);
+  delete(@start[tid]);
+}
